@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="logo.jpg">
+    <title>Pickup Locations - Clean Creation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header {
+            background-color: #1a0000;
+            padding: 30px;
+            width: 100%;
+            color: #ff0000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            position: relative;
+            min-height: 150px;
+        }
+
+        .home-button {
+            color: #ff0000;
+            text-decoration: none;
+            font-size: x-large;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: 2px solid #ff0000;
+            background-color: #1a0000;
+            border-radius: 10px;
+            padding: 10px 20px;
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+        
+        .home-button:hover {
+            color: #fff;
+            background-color: #ff0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            transform: translateY(-50%) scale(1.05);
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.5);
+        }
+
+        .hours {
+            background-color: #1a0000;
+            color: #ff0000;
+            padding: 15px;
+            font-size: 1.2em;
+            text-align: center;
+            width: 300px;
+            position: absolute;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 10px;
+            font-weight: bolder;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+
+        .locations {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 90%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .location {
+            background-color: #1a0000;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            text-align: center;
+            border: 1px solid #ff0000;
+        }
+
+        .location h2 {
+            color: #ff0000;
+        }
+
+        .location-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .location-info h3 {
+            margin-top: 10px;
+            color: #ff0000;
+        }
+
+        .location img {
+            width: 80%;
+            max-width: 300px;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 8px 15px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #ff0000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        }
+
+        button:hover {
+            background-color: #cc0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hours">
+            <p>Hours of Operation</p>
+            <p>Monday-Friday 7-7<br>Saturday 9-4<br>Sunday 9-4</p>    
+        </div>
+        <h1>PICK UP LOCATION</h1>
+        <a href="home page.html" class="home-button">Home</a>
+    </header>
+
+    <section class="locations">
+        <div class="location">
+            <h2>Call ahead for Main Campus pickup <a href="tel:(021) 111 128 128">(021) 111 128 128</a></h2>
+            <div class="location-details">
+                <div class="location-info">
+                    <h3>MAIN Campus</h3>
+                    <p>main highway,<br>Karachi</p>
+                </div>
+                <img src="branch1.jpg" alt="MAIN CAMPUS LOCATION">
+                <button onclick="showMap('baton-rouge')">See the Location</button>
+            </div>
+        </div>
+
+        <div class="location">
+            <h2>Call ahead for curbside pickup <a href="tel:(021) 111 128 128">(021) 111 128 128</a></h2>
+            <div class="location-details">
+                <div class="location-info">
+                    <h3>City Campus</h3>
+                    <p>Pechs block 6,<br>Karachi</p>
+                </div>
+                <img src="branch2.jpg" alt="CITY CAMPUS LOCATION">
+                <button onclick="showMap('gretna')">See the Location</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function showMap(location) {
+            if (location === 'baton-rouge') {
+                window.open("https://maps.app.goo.gl/aPpNzzhQ44LuVrWv5");
+            } else if (location === 'gretna') {
+                window.open("https://maps.app.goo.gl/sgFuVQ9nK5iQdMA98");
+            }
+        }
+    </script>
+</body>
+</html>

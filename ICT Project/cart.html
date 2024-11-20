@@ -1,0 +1,227 @@
+<script>
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || {};
+    let total = 0;
+
+    for (const item of Object.values(cartItems)) {
+        total += item.price * item.quantity;
+    }
+
+    window.onload = function() {
+        const cartContainer = document.querySelector('.cart-container');
+        cartContainer.innerHTML = ''; 
+        for (const [name, item] of Object.entries(cartItems)) {
+            const itemDiv = document.createElement('div');
+            itemDiv.classList.add('cart-item');
+            itemDiv.innerHTML = `
+                <div class="item-details">
+                    <p>${name}</p>
+                    <span>Quantity: ${item.quantity}</span>
+                </div>
+                <div class="item-price">
+                    <span>Rs.${item.price.toFixed(2)}</span>
+                    <button class="remove-btn" data-name="${name}" data-price="${item.price}" data-quantity="${item.quantity}">Remove</button>
+                </div>
+            `;
+            cartContainer.appendChild(itemDiv);
+        }
+
+        const summaryDiv = document.createElement('div');
+        summaryDiv.classList.add('cart-summary');
+        summaryDiv.innerHTML = `
+            <p>Subtotal:</p>
+            <span class="subtotal-price">Rs.${total.toFixed(2)}</span>
+        `;
+        cartContainer.appendChild(summaryDiv);
+
+        const checkoutBtn = document.createElement('button');
+        checkoutBtn.classList.add('checkout-btn');
+        checkoutBtn.textContent = 'Proceed to Checkout';
+        cartContainer.appendChild(checkoutBtn);
+
+        const removeButtons = document.querySelectorAll(".remove-btn");
+        const subtotalElement = document.querySelector(".subtotal-price");
+        const checkoutButton = document.querySelector(".checkout-btn");
+
+        removeButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const name = button.dataset.name;
+                const price = parseFloat(button.dataset.price);
+                const quantity = parseInt(button.dataset.quantity);
+                const itemElement = button.closest(".cart-item");
+                
+                const amountToSubtract = price * quantity;
+
+                itemElement.remove();
+                
+                delete cartItems[name];
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                total -= amountToSubtract;
+                subtotalElement.textContent = `Rs.${total.toFixed(2)}`;
+            });
+        });
+        checkoutButton.addEventListener("click", () => {
+            if (total > 0) {
+                alert("Proceeding to checkout with a total of Rs." + total.toFixed(2));
+                localStorage.removeItem('cartItems');
+                cartContainer.innerHTML = '<p>Thank you for your order!</p>';
+            } else {
+                alert("Your cart is empty!");
+            }
+        });
+    }
+</script>
+
+
+<style>
+    .cart-item {
+        background: #1a0000;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        border: 1px solid #ff0000;
+    }
+
+    .cart-total {
+        background: #1a0000;
+        color: #ff0000;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+    }
+
+    .remove-btn {
+        background-color: #ff0000;
+        color: #fff;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 1rem;
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+
+    .checkout-btn {
+        background-color: #ff0000;
+        color: white;
+        padding: 1rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 1rem;
+        font-size: larger;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Page</title>
+    <link rel="icon" type="image/x-icon" href="logo.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: black;
+            color: #ff0000;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .cart-section {
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            padding: 2rem;
+            background-color: #1a0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 50px;
+            border: 1px solid #ff0000;
+        }
+
+        .cart-header h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #ff0000;
+        }
+
+        .cart-header p {
+            color: #ff0000;
+            margin-bottom: 20px;
+        }
+
+        .cart-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .item-details p {
+            font-size: 18px;
+            color: #ff0000;
+        }
+
+        .item-price {
+            font-size: 18px;
+            color: #ff0000;
+        }
+
+        .cart-summary {
+            display: flex;
+            justify-content: space-between;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 1rem;
+            background: #1a0000;
+            border-radius: 8px;
+            margin-top: 1rem;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+
+        footer {
+            background-color: #1a0000;
+            color: #ff0000;
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            border-top: 1px solid #ff0000;
+        }
+    </style>
+</head>
+<body>
+<section class="cart-section">
+    <div class="cart-header">
+        <h2>Your Cart</h2>
+        <p id="date"></p>
+    </div>
+    
+    <div class="cart-container">
+    </div>
+</section>
+
+<footer>
+    <div class="footer-container">
+        <p>&copy; 2024 Fast Pizza. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

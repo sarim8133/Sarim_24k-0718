@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Pizza</title>
+    <link rel="icon" type="image/x-icon" href="logo.jpg">
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Base styles */
+        body {
+            font-family: Arial, sans-serif;
+            color: #fff;
+            background-color: #000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #1a0000;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+        }
+       
+        .header-container h1 {
+            font-family: 'Courier New', Courier, monospace;
+            color: #ff0000;
+            margin-right: 10px;
+            margin-left: 5px;
+        }
+
+        .header-container img {
+            width: 100px;
+        }
+
+        /* Navigation styles */
+        header nav a {
+            margin-left: 101px;
+            color: #ff0000;
+            text-decoration: dashed;
+            font-size: large;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bolder;
+            transition: color 0.5s ease, transform 0.3s ease;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff0000;
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        header nav a:hover {
+            color: #ff3333;
+            transform: translateY(-2px);
+        }
+
+        header nav a:hover::after {
+            transform: translateX(0);
+        }
+
+        /* Button styles */
+        .location-btn {
+            background-color: #1a0000;
+            color: #ff0000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: medium;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .location-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 0, 0, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .location-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+            color: #ff3333;
+        }
+
+        .location-btn:hover::after {
+            transform: translateX(0);
+        }
+
+        /* Cart section styles */
+        .cart-section {
+            width: 100%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 2rem;
+            background-color: #1a0000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .cart-header h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #ff0000;
+        }
+
+        .cart-item {
+            background: #1a0000;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-left: 101px;
+            color: #ff0000;
+            text-decoration: dashed;
+            font-size: large;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-weight: bolder;
+            transition: color 0.5s ease;
+        }
+
+        /* Order button styles */
+        .order-btn, .order-btns {
+            background-color: #1a0000;
+            color: #ff0000;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: medium;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .order-btn {
+            align-self: center;
+            margin: 0 20px 0 50px;
+        }
+
+        .order-btns {
+            margin-left: 100px;
+        }
+
+        .order-btn:hover,
+        .order-btns:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+        }
+
+        .order-btns:hover {
+            color: #ff3333;
+        }
+
+        /* Button link styles */
+        .button-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #1a0000;
+            color: #ff0000;
+            padding: 10px 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .button-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+        }
+
+        /* Hero section styles */
+        .hero {
+            display: flex;
+            padding: 2px;
+            background-color: #1a0000;
+            align-items: center;
+            justify-content: space-between;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 500px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .hero img {
+            height: 500px;
+            width: 100%;
+        }
+
+        /* Cart container styles */
+        .cart-container {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: #1a0000;
+            padding: 15px;
+            border-radius: 8px;
+            color: #ff0000;
+            font-size: 16px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .cart-container a {
+            color: #ff0000;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.5s ease;
+        }
+        
+        .cart-container a:hover {
+            color: #ff3333;
+        }
+
+        .cart-container .cart-count {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        /* Navigation button styles */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 1.5em;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .nav-button.left {
+            left: 10px;
+        }
+
+        .nav-button.right {
+            right: 10px;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255, 0, 0, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+        }
+
+        /* Section card styles */
+        .step,
+        .menu-item,
+        .plan-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            background: #1a0000;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            width: 300px;
+        }
+
+        /* Section styles */
+        .how-it-works,
+        .menu,
+        .plans,
+        .testimonials {
+            padding: 2rem;
+            text-align: center;
+            background-color: #000;
+        }
+
+        .steps,
+        .menu-items,
+        .plan-cards {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #1a0000;
+            color: #ff0000;
+            padding: 1rem;
+            text-align: center;
+            margin-top: auto;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <img src="logo.jpg" alt="Pizza Logo" class="logo">
+            <h1>Fast Pizza</h1>
+            <nav>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#menu">Menu</a>
+                <a href="#plans">Deals</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="pick up locations.html" class="location-btn">Location</a>
+            </nav>
+        </div>
+    </header>
+    <br><br>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="slideshow-container">
+            <div class="slide fade">
+                <img src="banner.jpg" alt="Banner 1" class="slide-image">
+            </div>
+            <div class="slide fade">
+                <img src="banner2,jpg.jpg" alt="Banner 2" class="slide-image">
+            </div>
+    
+            <button class="nav-button left" onclick="changeSlide(-1)">&lt;</button>
+            <button class="nav-button right" onclick="changeSlide(1)">&gt;</button>
+        </div>
+    </section>
+
+    <!-- Cart Container -->
+    <div class="cart-container" id="cart-container">
+        <div class="cart-count">
+            <span id="cart-count">0</span> items in cart
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <a href="cart.html" onclick="saveCartToLocalStorage()">View Cart</a>
+    </div>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <h2 style="color: #ff0000;">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <img src="place.jpg" alt="Step 1" width="50">
+                <h3>Place Order</h3>
+                <p>Select from our range of pizza options.</p>
+            </div>
+            <div class="step">
+                <img src="cook.jpg" alt="Step 2" width="50">
+                <h3>Cook</h3>
+                <p>We prepare fresh pizzas just for you.</p>
+            </div>
+            <div class="step">
+                <img src="delivery.jpg" alt="Step 3" width="50">
+                <h3>Pickup/Deliver</h3>
+                <p>Get your meals delivered or pick them up at your convenience.</p>
+            </div>
+        </div>
+    </section>
+    <br><br>
+
+    <!-- Family Deals Section -->
+    <section id="plans" class="plans">
+        <h2 style="color: #ff0000;">Family Deals</h2>
+        <div class="plan-cards">
+            <div class="plan-card">
+                <img src="fam1.jpg" alt="Meal 1" width="150">
+                <h3>Family Deal 1</h3>
+                <p>Medium Pizza, 4 Pcs Garlic Breads, one dip sauce, and two 345ml Drinks</p>
+                <p><strong>Rs.1599</strong></p>
+                <div class="button-container">
+                    <button class="button-link" onclick="addToCart('Family Deal 1', 1599)">+</button>
+                    <button class="button-link" onclick="removeFromCart('Family Deal 1')" style="display: none;">-</button>
+                </div>
+            </div>
+            <div class="plan-card">
+                <img src="fam2.jpg" alt="Meal 2" width="150">
+                <h3>Family Deal 2</h3>
+                <p>Large Pizza, 4 Pcs Garlic Breads and 1 liter Softdrink</p>
+                <p><strong>Rs.1959</strong></p>
+                <div class="button-container">
+                    <button class="button-link" onclick="addToCart('Family Deal 2', 1959)">+</button>
+                    <button class="button-link" onclick="removeFromCart('Family Deal 2')" style="display: none;">-</button>
+                </div>
+            </div>
+            <div class="plan-card">
+                <img src="deal.jpg" alt="Meal 3" width="150">
+                <h3>11.11 Deal</h3>
+                <p>1x6* Regular Pizza ,1x345ml Drink</p>
+                <p><strong>Rs.399</strong></p>
+                <div class="button-container">
+                    <button class="button-link" onclick="addToCart('11.11 Deal', 399)">+</button>
+                    <button class="button-link" onclick="removeFromCart('11.11 Deal')" style="display: none;">-</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br><br>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu">
+        <h2 style="color: #ff0000;">Online Menu</h2>
+        <div class="menu-items">
+            <div class="menu-item">
+                <img src="item1.jpg" alt="Meal 1" width="150">
+                <h4>Chicago Bold Fold</h4>
+                <p>Beef pepperoni, marinara and mozzarella</p>
+                <p><strong>Rs.749</strong></p>
+                <div class="button-container">
+                    <button class="button-link" onclick="addToCart('Chicago Bold Fold', 749)">+</button>
+                    <button class="button-link" onclick="removeFromCart('Chicago Bold Fold')" style="display: none;">-</button>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="item2.jpg" alt="Meal 2" width="150">
+                <h4>All Cheese</h4>
+                <p>It's all about cheese! Experience the goodness of mozzarella and cheddar cheese!</p>
+                <p><strong>Rs.749</strong></p>
+                <div class="button-container">
+                    <button class="button-link" onclick="addToCart('All Cheese', 749)">+</button>
+                    <button class="button-link" onclick="removeFromCart('All Cheese')" style="display: none;">-</button>
+                </div>
+            </div>
+            <div class="menu-item">
+                <img src="item3.jpg" alt="Meal 3" width="150">
+                <h4>Shawarma Pizza</h4>
+                <p>Mozzarella cheese, chicken tikka, jalapeño, black olives, capsicum, onions, tomatoes, cucumber, creamy tahini sauce, pickled cucumber and pickled beetroot.</p>
+                <p><strong>Rs.1599</strong></p>
+                <div class="button-container">
+                    <button class="button-link" onclick="addToCart('Shawarma Pizza', 749)">+</button>
+                    <button class="button-link" onclick="removeFromCart('Shawarma Pizza')" style="display: none;">-</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br><br>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <h2 style="color: #ff0000;">What People Are Saying</h2>
+        <div class="testimonial">
+            <p>"Amazing service and delicious meals!"</p>
+            <p><strong>- Alex Mathews</strong></p>
+        </div>
+    </section>
+    <br><br>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Clean Eating</div>
+            <p>© 2024 Fast Pizza. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Cart Management Script -->
+    <script>
+        let cartCount = 0;
+        let cartItems = {};
+
+        function addToCart(itemName, price) {
+            cartCount++;
+            document.getElementById("cart-count").textContent = cartCount;
+
+            if (cartItems[itemName]) {
+                cartItems[itemName].quantity += 1;
+            } else {
+                cartItems[itemName] = { price: price, quantity: 1 };
+                const buttonContainer = document.querySelector(`button[onclick="addToCart('${itemName}', ${price})"]`).nextElementSibling;
+                buttonContainer.style.display = "inline-block";
+            }
+            updateCartDisplay();
+        }
+
+        function removeFromCart(itemName) {
+            if (cartItems[itemName] && cartItems[itemName].quantity > 0) {
+                cartItems[itemName].quantity -= 1;
+                cartCount--;
+                document.getElementById("cart-count").textContent = cartCount;
+
+                if (cartItems[itemName].quantity === 0) {
+                    delete cartItems[itemName];
+                    const buttonContainer = document.querySelector(`button[onclick="removeFromCart('${itemName}')"]`);
+                    buttonContainer.style.display = "none";
+                }
+                updateCartDisplay();
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartItemsContainer = document.getElementById("cart-items");
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            for (const [name, item] of Object.entries(cartItems)) {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                cartItemsContainer.innerHTML += `<p>${item.quantity}x ${name} Rs.${itemTotal}</p>`;
+            }
+            cartItemsContainer.innerHTML += `<p><strong>Total: Rs.${total}</strong></p>`;
+        }
+
+        function saveCartToLocalStorage() {
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        }
+    </script>
+
+    <!-- Slideshow Script -->
+    <script>
+        let currentSlideIndex = 0;
+        showSlide(currentSlideIndex);
+    
+        function changeSlide(n) {
+            showSlide(currentSlideIndex += n);
+        }
+    
+        function showSlide(n) {
+            const slides = document.getElementsByClassName("slide");
+            if (n >= slides.length) {
+                currentSlideIndex = 0;
+            }
+            if (n < 0) {
+                currentSlideIndex = slides.length - 1;
+            }
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slides[currentSlideIndex].style.display = "block";
+        }
+    
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+    </script>
+</body>
+</html>
